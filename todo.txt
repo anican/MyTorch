@@ -1,0 +1,25 @@
+
+
+Layers:
+- Activation Layers:
+    - ReLU layer
+    - LeakyReLU layer
+    - PReLU layer
+    - Sigmoid layer
+    - Tanh layer
+    - Gelu layer
+- Loss Layers:
+    - Softmax-Cross Entropy layer
+    - Square loss
+- Linear layer
+- Convolutional layer
+- BatchNorm layer
+- MaxPool layer
+- Residual block layer
+
+Optimizers:
+- Gradient Descent
+- SGD
+- SGD++ (w/ momentum
+- Adam 
+
