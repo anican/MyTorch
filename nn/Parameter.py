@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Parameter(object):
     """
     :class Parameter is used to create wrappers for the data and gradients of parameters

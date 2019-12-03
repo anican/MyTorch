@@ -2,7 +2,7 @@ class Optimizer(object):
     """
     Base class for all optimizers.
     """
-    def __init__(self, parameters: Iterable):
+    def __init__(self, parameters):
         self.parameters = parameters
 
     def step(self):
