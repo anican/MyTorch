@@ -20,6 +20,9 @@ Personal computing framework for deep learning.
 - [ ] `nn.CrossEntropyLoss()`
 - [ ] `nn.MSELoss()`
 - [ ] `nn.RMSELoss()`
+### Pooling Layers
+- [ ] `nn.MaxPool2d()`
+- [ ] `nn.MaxPool3d()`
 ### Normalization Layers
 - [ ] `nn.BatchNorm1d()`
 - [ ] `nn.BatchNorm2d()`

@@ -5,6 +5,9 @@ class Parameter(object):
     """
     :class Parameter is used to create wrappers for the data and gradients of parameters
     in a network. Such parameters include but are not limited to the weights and biases.
+
+    If for some reason you ever got around to building mytorch on top of a tensor related library instead of numpy, then
+    you'd want Parameter to inherit from the tensor building block instead of just object. 
     """
     def __init__(self, data: np.ndarray, dtype=np.float32):
         self._data = data.astype(dtype)
