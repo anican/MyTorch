@@ -7,17 +7,8 @@ import numpy as np
 from nn import Parameter
 
 
-def normals_initializer(parameter: Parameter):
-    if len(parameter.data.squeeze().shape) == 1:
-        # Zero bias initializer
-        parameter.data = 0
-    else:
-        # Normal distribution
-        parameter.data = np.random.normal(0, 0.1, parameter.data.shape)
-
-
 class Module(object):
-    """
+    r"""
     Base class for all layer modules.
     """
     def __init__(self, parent: Optional[Union["Module", Tuple["Module", ...]]] = None):
@@ -129,7 +120,7 @@ class Module(object):
         return ""
 
     def _total_str(self, depth=0) -> List[str]:
-        from nn.layers.dummy_layer import DummyLayer
+        from nn import DummyLayer
         total_str_arr = []
         for obj, val in self.vars():
             if isinstance(val, Module):
