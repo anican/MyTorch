@@ -9,7 +9,7 @@ from abc import ABC
 
 
 class Module(object):
-    r"""
+    """
     Base class for all layer modules.
     """
     def __init__(self, parent: Optional[Union["Module", Tuple["Module", ...]]] = None):

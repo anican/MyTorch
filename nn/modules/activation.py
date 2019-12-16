@@ -7,19 +7,6 @@ def sigmoid(x: np.ndarray) -> np.ndarray:
     return np.where(x >= 0, 1 / (1 + np.exp(-x)), np.exp(x) / (1 + np.exp(x)))
 
 
-class Sigmoid(Module):
-    def __init__(self, parent=None):
-        super(Sigmoid, self).__init__(parent)
-        self.output = None
-
-    def forward(self, data: np.ndarray) -> np.ndarray:
-        self.output = sigmoid(data)
-        return self.output
-
-    def backward(self, previous_partial_gradient: np.ndarray) -> np.ndarray:
-        return self.output * (1 - self.output)
-
-
 class ReLU(Module):
     def __init__(self, parent=None, use_numba=False):
         super(ReLU, self).__init__(parent)
@@ -51,6 +38,33 @@ class ReLU(Module):
             else:
                 data[idx] = grad[idx]
         return data
+
+
+class Sigmoid(Module):
+    def __init__(self, parent=None):
+        super(Sigmoid, self).__init__(parent)
+        self.output = None
+
+    def forward(self, data: np.ndarray) -> np.ndarray:
+        self.output = sigmoid(data)
+        return self.output
+
+    def backward(self, previous_partial_gradient: np.ndarray) -> np.ndarray:
+        return previous_partial_gradient * self.output * (1 - self.output)
+
+
+class Softplus(Module):
+    def __init__(self, parent=None):
+        super(Softplus, self).__init__(parent)
+        self.data = None
+
+    def forward(self, data: np.ndarray) -> np.ndarray:
+        self.data = data
+        output = np.log(1 + np.exp(self.data))
+        return output
+
+    def backward(self, previous_partial_gradient):
+        return previous_partial_gradient * sigmoid(self.data)
 
 
 
