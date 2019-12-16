@@ -5,6 +5,7 @@ from collections import OrderedDict
 from typing import Callable, List, Tuple, Iterable, Dict, Optional, Union
 import numpy as np
 from nn import Parameter
+from abc import ABC
 
 
 class Module(object):
@@ -120,11 +121,11 @@ class Module(object):
         return ""
 
     def _total_str(self, depth=0) -> List[str]:
-        from nn import DummyLayer
+        from nn import _DummyLayer
         total_str_arr = []
         for obj, val in self.vars():
             if isinstance(val, Module):
-                if isinstance(val, DummyLayer):
+                if isinstance(val, _DummyLayer):
                     total_str_arr.extend(val._total_str(depth))
                 else:
                     total_str_arr.append(("(" + obj + "): " + val.name + ": " + val.selfstr(), depth))

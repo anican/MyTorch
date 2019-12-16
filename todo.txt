@@ -1,2 +1,5 @@
 
+Functionality:
+1. implement layer using layer class
+2. implement network class
 
