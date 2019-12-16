@@ -9,13 +9,13 @@ Personal computing framework for deep learning.
 - [ ] `nn.Conv3d()`
 - [ ] `nn.ConvTranspose2d()`
 ### Non-Linear Activation Layers
-- [ ] `nn.Sigmoid()`
-- [ ] `nn.ReLU()`
+- [x] `nn.Sigmoid()`
+- [x] `nn.ReLU()`
 - [ ] `nn.LeakyReLU()`
 - [ ] `nn.LogSigmoid()`
 - [ ] `nn.PReLU()`
 - [ ] `nn.Tanh()`
-- [ ] `nn.Softplus()`
+- [x] `nn.Softplus()`
 ### Loss Layers
 - [ ] `nn.CrossEntropyLoss()`
 - [ ] `nn.MSELoss()`

@@ -8,6 +8,7 @@ def sigmoid(x: np.ndarray) -> np.ndarray:
 
 
 class ReLU(Module):
+    # TODO: requires testing!
     def __init__(self, parent=None, use_numba=False):
         super(ReLU, self).__init__(parent)
         self.use_numba = use_numba
@@ -41,6 +42,7 @@ class ReLU(Module):
 
 
 class Sigmoid(Module):
+    # TODO: requires testing!
     def __init__(self, parent=None):
         super(Sigmoid, self).__init__(parent)
         self.output = None
@@ -54,6 +56,7 @@ class Sigmoid(Module):
 
 
 class Softplus(Module):
+    # TODO: requires testing!
     def __init__(self, parent=None):
         super(Softplus, self).__init__(parent)
         self.data = None
