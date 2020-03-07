@@ -1,11 +1,12 @@
 # analogous to layer.py in the deep learning homework
 # This class was written by Daniel Gordon/Aaron Walsman for the deep learning class, I have adjusted it a little for
 # personal use in MyTorch
-from collections import OrderedDict
-from typing import Callable, List, Tuple, Iterable, Dict, Optional, Union
+from abc import ABC
+from collections import OrderedDict, deque
 import numpy as np
 from nn import Parameter
-from abc import ABC
+from nn.modules import _DummyLayer
+from typing import Callable, List, Tuple, Iterable, Dict, Optional, Union
 
 
 class Module(object):
@@ -153,3 +154,77 @@ class Module(object):
 
     def __call__(self, *args, **kwargs):
         return self.forward(*args, **kwargs)
+
+
+class MetaModule(Module, ABC):
+    def __init__(self, parent=None):
+        if parent is None:
+            parent = _DummyLayer()
+        super(MetaModule, self).__init__(parent)
+
+    @property
+    def final_layer(self):
+        raise NotImplementedError
+
+    def set_parent(self, val):
+        if isinstance(self._parent, _DummyLayer):
+            self._parent.set_parent(val)
+        else:
+            self._parent = val
+
+    def backward(self, previous_partial_gradients=None) -> np.ndarray:
+        if previous_partial_gradients is not None:
+            gradient = self.final_layer.backward(previous_partial_gradients)
+        else:
+            gradient = self.final_layer.backward()
+
+        # Build Computation Graph
+        frontier = deque([self.final_layer])
+        graph = {}
+        while frontier:
+            node = frontier.popleft()
+            if node.parents is None:
+                continue
+            for parent in node.parents:
+                if parent not in graph:
+                    graph[parent] = set()
+                graph[parent].add(node)
+                frontier.append(parent)
+
+        # Topological Sort
+        order = []
+        frontier = deque([self.final_layer])
+        while frontier:
+            node = frontier.popleft()
+            order.append(node)
+            if node.parents is None:
+                continue
+            for parent in node.parents:
+                graph[parent].remove(node)
+                if len(graph[parent]) == 0:
+                    frontier.append(parent)
+
+        grad_dict = {}
+        self._assign_parent_grads(self.final_layer, gradient, grad_dict)
+        # Ignore loss layer because already computed
+        order = order[1:]
+        # Send gradients backwards
+        for layer in order:
+            output_grad = layer.backward(grad_dict[layer])
+            if layer.parents is not None:
+                self._assign_parent_grads(layer, output_grad, grad_dict)
+        return output_grad
+
+    @staticmethod
+    def _assign_parent_grads(layer, grad, grad_dict):
+        assert isinstance(grad, np.ndarray) or isinstance(grad, tuple), (
+                "grad should be a nparray or a tuple of nparrays but was %s." % type(grad).__name__)
+        assert isinstance(layer.parent, tuple) == isinstance(grad, tuple), (
+            "Gradients should be a tuple iff there are multiple parents.")
+        if not isinstance(grad, tuple):
+            grad = (grad,)
+        for parent, grad in zip(layer.parents, grad):
+            if parent in grad_dict:
+                grad_dict[parent] = grad_dict[parent] + grad
+            else:
+                grad_dict[parent] = grad
