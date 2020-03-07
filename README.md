@@ -30,6 +30,9 @@ Personal computing framework for deep learning.
 - [x] `optim.SGD()`
 - [ ] `optim.Adam()`
 - [ ] learning rate decay scheduler
+## initialization Package
+- [] Uniform Distribution
+- [] Normal Distribution
 ## Tests
 
 ## Installation 
