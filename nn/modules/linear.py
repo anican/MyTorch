@@ -4,12 +4,15 @@ from nn import Parameter, Module
 
 
 class Linear(Module):
+    """
+    Applies a linear transformation to the incoming data: $y = Wx + b$
+    """
     def __init__(self, input_features: int, output_features: int, is_bias=True, parent=None):
         """
 
-        :param input_features:
-        :param output_features:
-        :param is_bias:
+        :param input_features: Size of each input feature.
+        :param output_features: Size of each output feature.
+        :param is_bias: If set to false, the layer will not learn an additive bias. Default: `True`
         :param parent:
         """
         super(Linear, self).__init__(parent)
